@@ -73,9 +73,10 @@ function initClouds() {
 }
 
 function resetGame() {
+    resize(); // Asegurar que canvas tiene dimensiones correctas
     bird = { ...BIRD };
     bird.x = canvas.width * 0.25;
-    bird.y = canvas.height / 2;
+    bird.y = canvas.height * 0.35;
     pipes = [];
     score = 0;
     gameSpeed = 2.5;
@@ -125,9 +126,11 @@ function update() {
         bird.velocity = 0;
     }
     
-    // Spawn pipes
-    if (pipes.length === 0 || canvas.width - pipes[pipes.length - 1].x >= PIPE.spawnRate) {
-        spawnPipe();
+    // Spawn pipes (empezar a generar después de unos frames)
+    if (score > 0 || (pipes.length === 0 && bird.y > 0)) {
+        if (pipes.length === 0 || canvas.width - pipes[pipes.length - 1].x >= PIPE.spawnRate) {
+            spawnPipe();
+        }
     }
     
     // Update pipes
@@ -311,7 +314,11 @@ function start() {
     resetGame();
     startScreen.classList.add('hidden');
     gameOverScreen.classList.add('hidden');
-    loop();
+    
+    // Pequeño delay para asegurar que todo está renderizado
+    requestAnimationFrame(() => {
+        loop();
+    });
 }
 
 // Controls
