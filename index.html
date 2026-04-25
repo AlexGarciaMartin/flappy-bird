@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Flappy Bird - OpenClaw Edition</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-wrapper">
+        <div class="score-display">
+            <span id="best">🏆 0</span>
+            <span id="current">0</span>
+        </div>
+        <canvas id="game"></canvas>
+        <div id="start-screen" class="overlay">
+            <h1>🐦 Flappy Bird</h1>
+            <p>Click, toca la pantalla o pulsa ESPACIO para volar</p>
+            <button id="start-btn">▶️ Jugar</button>
+        </div>
+        <div id="gameover-screen" class="overlay hidden">
+            <h2>💀 Game Over</h2>
+            <p>Puntuación: <span id="final-score">0</span></p>
+            <p>Mejor: <span id="final-best">0</span></p>
+            <button id="restart-btn">🔄 Reintentar</button>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
