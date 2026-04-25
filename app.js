@@ -20,6 +20,7 @@ window.addEventListener('resize', resize);
 // Game state
 let gameLoop = null;
 let bird, pipes, score, bestScore, gameSpeed, isGameOver;
+let gameActive = false;
 
 // Bird
 const BIRD = {
@@ -86,7 +87,7 @@ function resetGame() {
 }
 
 function jump() {
-    if (isGameOver) return;
+    if (isGameOver || !gameActive) return;
     bird.velocity = bird.jump;
 }
 
@@ -315,15 +316,23 @@ function start() {
     startScreen.classList.add('hidden');
     gameOverScreen.classList.add('hidden');
     
-    // Pequeño delay para asegurar que todo está renderizado
-    requestAnimationFrame(() => {
+    gameActive = false;
+    // Pequeño delay para asegurar que el layout del móvil esté listo
+    setTimeout(() => {
+        gameActive = true;
         loop();
-    });
+    }, 100);
 }
 
 // Controls
-startBtn.addEventListener('click', start);
-restartBtn.addEventListener('click', start);
+startBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    start();
+});
+restartBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    start();
+});
 
 canvas.addEventListener('click', () => {
     if (!startScreen.classList.contains('hidden')) return;
@@ -333,6 +342,7 @@ canvas.addEventListener('click', () => {
 
 canvas.addEventListener('touchstart', (e) => {
     e.preventDefault();
+    if (!gameActive) return;
     if (!startScreen.classList.contains('hidden')) return;
     if (!gameOverScreen.classList.contains('hidden')) return;
     jump();
